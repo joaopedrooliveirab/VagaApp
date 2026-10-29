@@ -11,6 +11,7 @@ import { Brand } from '../components/Brand';
 import { Button } from '../components/Button';
 import { Input } from '../components/Input';
 import { Screen } from '../components/Screen';
+import { Title } from '../components/Title';
 
 import { sharedStyles } from '../constants/theme';
 import { useAuth } from '../context/AuthContext';
@@ -37,12 +38,7 @@ export default function LoginScreen() {
     <Screen>
       <Brand />
 
-      <Text
-        style={sharedStyles.title}
-        accessibilityRole="header"
-      >
-        Bem-vindo de volta
-      </Text>
+      <Title>Bem-vindo de volta</Title>
 
       <Text style={sharedStyles.subtitle}>
         Entre na sua conta para continuar.
@@ -105,6 +101,19 @@ export default function LoginScreen() {
           style={sharedStyles.link}
         >
           Criar conta
+        </Link>
+      </View>
+
+      <View style={sharedStyles.footer}>
+        <Text style={sharedStyles.muted}>
+          Você faz parte da equipe TEIA?
+        </Text>
+
+        <Link
+          href="/admin-login"
+          style={sharedStyles.link}
+        >
+          Acessar área administrativa
         </Link>
       </View>
     </Screen>

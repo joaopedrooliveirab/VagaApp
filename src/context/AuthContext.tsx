@@ -6,6 +6,7 @@ import {
 } from 'react';
 
 import {
+  loginAdminMock,
   loginMock,
   registerMock,
   type AuthResult,
@@ -17,6 +18,7 @@ import {
 type AuthContextData = {
   user: User | null;
   login: (credentials: Credentials) => AuthResult;
+  loginAdmin: (credentials: Credentials) => AuthResult;
   register: (data: Registration) => AuthResult;
   logout: () => void;
 };
@@ -34,6 +36,16 @@ export function AuthProvider({
 
   function login(credentials: Credentials): AuthResult {
     const result = loginMock(credentials);
+
+    if (result.ok) {
+      setUser(result.user);
+    }
+
+    return result;
+  }
+
+  function loginAdmin(credentials: Credentials): AuthResult {
+    const result = loginAdminMock(credentials);
 
     if (result.ok) {
       setUser(result.user);
@@ -61,6 +73,7 @@ export function AuthProvider({
       value={{
         user,
         login,
+        loginAdmin,
         register,
         logout,
       }}

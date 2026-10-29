@@ -11,6 +11,7 @@ import { Brand } from '../components/Brand';
 import { Button } from '../components/Button';
 import { Input } from '../components/Input';
 import { Screen } from '../components/Screen';
+import { Title } from '../components/Title';
 
 import { sharedStyles } from '../constants/theme';
 import { useAuth } from '../context/AuthContext';
@@ -41,12 +42,7 @@ export default function CadastroScreen() {
     <Screen>
       <Brand />
 
-      <Text
-        style={sharedStyles.title}
-        accessibilityRole="header"
-      >
-        Crie sua conta
-      </Text>
+      <Title>Crie sua conta</Title>
 
       <Text style={sharedStyles.subtitle}>
         Seu primeiro passo começa aqui.

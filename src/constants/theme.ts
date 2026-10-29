@@ -32,6 +32,27 @@ export const sharedStyles = StyleSheet.create({
     gap: 18,
   },
 
+  sectionTitle: {
+    color: colors.text,
+    fontSize: 18,
+    fontWeight: '700',
+  },
+
+  body: {
+    color: colors.text,
+    fontSize: 15,
+    lineHeight: 22,
+  },
+
+  card: {
+    backgroundColor: colors.surface,
+    borderColor: '#E2E8F0',
+    borderWidth: 1,
+    borderRadius: 14,
+    padding: 18,
+    gap: 12,
+  },
+
   error: {
     color: colors.error,
     backgroundColor: '#FFF1F0',
