@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from 'react-native';
 
 import { colors } from '../constants/theme';
-import type { Job } from '../features/jobs/jobs';
+import { publicationLabels, type Job } from '../features/jobs/jobs';
 
 import { Button } from './Button';
 import { Icon, type IconName } from './Icon';
@@ -10,6 +10,7 @@ import { Tag } from './Tag';
 type JobCardProps = {
   job: Job;
   onPress: () => void;
+  showPublicationStatus?: boolean;
 };
 
 export function JobMeta({
@@ -41,7 +42,7 @@ export function CompanyMark({ company }: { company: string }) {
   );
 }
 
-export function JobCard({ job, onPress }: JobCardProps) {
+export function JobCard({ job, onPress, showPublicationStatus = false }: JobCardProps) {
   return (
     <View style={styles.card}>
       <View style={styles.header}>
@@ -66,6 +67,8 @@ export function JobCard({ job, onPress }: JobCardProps) {
       </View>
 
       <Tag label="Vaga demonstrativa" variant="outline" />
+
+      {showPublicationStatus && <Tag label={publicationLabels[job.publicationStatus]} />}
 
       <Button title="Ver vaga" onPress={onPress} />
     </View>

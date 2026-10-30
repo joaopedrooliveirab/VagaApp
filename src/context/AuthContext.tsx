@@ -7,6 +7,7 @@ import {
 
 import {
   loginAdminMock,
+  loginCompanyMock,
   loginMock,
   registerMock,
   type AuthResult,
@@ -19,6 +20,7 @@ type AuthContextData = {
   user: User | null;
   login: (credentials: Credentials) => AuthResult;
   loginAdmin: (credentials: Credentials) => AuthResult;
+  loginCompany: (credentials: Credentials) => AuthResult;
   register: (data: Registration) => AuthResult;
   logout: () => void;
 };
@@ -54,6 +56,16 @@ export function AuthProvider({
     return result;
   }
 
+  function loginCompany(credentials: Credentials): AuthResult {
+    const result = loginCompanyMock(credentials);
+
+    if (result.ok) {
+      setUser(result.user);
+    }
+
+    return result;
+  }
+
   function register(data: Registration): AuthResult {
     const result = registerMock(data);
 
@@ -74,6 +86,7 @@ export function AuthProvider({
         user,
         login,
         loginAdmin,
+        loginCompany,
         register,
         logout,
       }}

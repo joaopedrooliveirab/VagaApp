@@ -1,9 +1,18 @@
 export type WorkMode = 'Remoto' | 'Híbrido' | 'Presencial';
+export type PublicationStatus = 'review' | 'published' | 'closed';
+
+export const publicationLabels: Record<PublicationStatus, string> = {
+  review: 'Em revisão pelo TEIA',
+  published: 'Publicada',
+  closed: 'Encerrada',
+};
 
 export type Job = {
   id: string;
   title: string;
   company: string;
+  companyId: string;
+  publicationStatus: PublicationStatus;
   location: string;
   mode: WorkMode;
   level: string;
@@ -18,6 +27,8 @@ export const jobs: Job[] = [
     id: 'estagio-analise-de-dados',
     title: 'Estágio em Análise de Dados',
     company: 'Nimbus Analytics',
+    companyId: 'nimbus-analytics',
+    publicationStatus: 'published',
     location: 'São Luís/MA',
     mode: 'Remoto',
     level: 'Estágio',
@@ -35,6 +46,8 @@ export const jobs: Job[] = [
     id: 'estagio-backend-java',
     title: 'Estágio em Backend Java',
     company: 'Órbita Sistemas',
+    companyId: 'orbita-sistemas',
+    publicationStatus: 'published',
     location: 'São Luís/MA',
     mode: 'Híbrido',
     level: 'Estágio',
@@ -52,6 +65,8 @@ export const jobs: Job[] = [
     id: 'estagio-front-end',
     title: 'Estágio em Front-end',
     company: 'Pixel Lab',
+    companyId: 'pixel-lab',
+    publicationStatus: 'published',
     location: 'São Luís/MA',
     mode: 'Remoto',
     level: 'Estágio',
@@ -69,6 +84,8 @@ export const jobs: Job[] = [
     id: 'estagio-suporte-de-ti',
     title: 'Estágio em Suporte de TI',
     company: 'Conecta TI',
+    companyId: 'conecta-ti',
+    publicationStatus: 'published',
     location: 'São Luís/MA',
     mode: 'Presencial',
     level: 'Estágio',

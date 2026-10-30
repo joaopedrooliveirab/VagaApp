@@ -116,6 +116,13 @@ export default function LoginScreen() {
           Acessar área administrativa
         </Link>
       </View>
+
+      <View style={sharedStyles.footer}>
+        <Text style={sharedStyles.muted}>Você representa uma empresa?</Text>
+        <Link href="/empresa-login" style={sharedStyles.link}>
+          Acessar área da empresa
+        </Link>
+      </View>
     </Screen>
   );
 }
