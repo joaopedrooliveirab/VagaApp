@@ -4,6 +4,7 @@ import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { AnalysisProvider } from '../context/AnalysisContext';
+import { ConversationsProvider } from '../context/ConversationsContext';
 import {
   AuthProvider,
   useAuth,
@@ -20,6 +21,7 @@ function Routes() {
           <Stack.Screen name="index" />
           <Stack.Screen name="cadastro" />
           <Stack.Screen name="admin-login" />
+          <Stack.Screen name="empresa-login" />
         </Stack.Protected>
 
         <Stack.Protected guard={user?.role === 'aluno'}>
@@ -28,6 +30,10 @@ function Routes() {
 
         <Stack.Protected guard={user?.role === 'administrativo'}>
           <Stack.Screen name="(admin)" />
+        </Stack.Protected>
+
+        <Stack.Protected guard={user?.role === 'empresa'}>
+          <Stack.Screen name="(empresa)" />
         </Stack.Protected>
       </Stack>
     </AnalysisProvider>
@@ -38,8 +44,11 @@ export default function RootLayout() {
   return (
     <SafeAreaProvider>
       <AuthProvider>
-        <StatusBar style="dark" />
-        <Routes />
+        {/* Mantém o histórico ao alternar de perfil na mesma execução. */}
+        <ConversationsProvider>
+          <StatusBar style="dark" />
+          <Routes />
+        </ConversationsProvider>
       </AuthProvider>
     </SafeAreaProvider>
   );

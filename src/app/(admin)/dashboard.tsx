@@ -1,8 +1,10 @@
 import { useMemo, useState, type ReactNode } from 'react';
+import { router } from 'expo-router';
 
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { BarChart } from '../../components/BarChart';
+import { Button } from '../../components/Button';
 import { Icon } from '../../components/Icon';
 import { Notice } from '../../components/Notice';
 import { RankList } from '../../components/RankList';
@@ -90,6 +92,8 @@ export default function DashboardScreen() {
       <Text style={sharedStyles.subtitle}>
         Uso da plataforma e preparação dos alunos para as vagas.
       </Text>
+
+      <Button title="Conversas com empresas" variant="outline" onPress={() => router.push('/teia/conversas')} />
 
       <Notice title="Dados demonstrativos">
         Os números abaixo são fictícios e não representam alunos

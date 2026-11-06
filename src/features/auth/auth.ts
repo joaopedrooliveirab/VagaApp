@@ -1,10 +1,15 @@
-export type Role = 'aluno' | 'administrativo';
+export type Role = 'aluno' | 'administrativo' | 'empresa';
 
-export type User = {
+type UserIdentity = {
+  id: string;
   name: string;
   email: string;
-  role: Role;
 };
+
+export type User = UserIdentity & (
+  | { role: 'aluno' | 'administrativo' }
+  | { role: 'empresa'; companyId: string }
+);
 
 export type Credentials = {
   email: string;
@@ -27,6 +32,7 @@ export type AuthResult =
     };
 
 const mockUser: User = {
+  id: 'aluno-demo',
   name: 'João',
   email: 'aluno@test.com',
   role: 'aluno',
@@ -35,12 +41,39 @@ const mockUser: User = {
 const mockPassword = '123456';
 
 const mockAdmin: User = {
+  id: 'teia-demo',
   name: 'Equipe TEIA',
   email: 'admin@teia.com',
   role: 'administrativo',
 };
 
 const mockAdminPassword = 'teia123';
+
+const mockCompany: User = {
+  id: 'empresa-nimbus-demo',
+  name: 'Equipe Nimbus Analytics',
+  email: 'empresa@test.com',
+  role: 'empresa',
+  companyId: 'nimbus-analytics',
+};
+
+export function loginCompanyMock({ email, password }: Credentials): AuthResult {
+  const normalizedEmail = normalizeEmail(email);
+
+  if (!normalizedEmail || !password) {
+    return { ok: false, message: 'Preencha o e-mail e a senha.' };
+  }
+
+  if (!emailPattern.test(normalizedEmail)) {
+    return { ok: false, message: 'Informe um e-mail válido.' };
+  }
+
+  if (normalizedEmail !== mockCompany.email || password !== '123456') {
+    return { ok: false, message: 'E-mail ou senha incorretos.' };
+  }
+
+  return { ok: true, user: { ...mockCompany } };
+}
 
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -165,6 +198,7 @@ export function registerMock({
   return {
     ok: true,
     user: {
+      id: `aluno:${normalizedEmail}`,
       name: normalizedName,
       email: normalizedEmail,
       role: 'aluno',
@@ -174,3 +208,4 @@ export function registerMock({
 
 // aluno: aluno@test.com e 123456
 // administrativo (TEIA): admin@teia.com e teia123
+// empresa (Nimbus Analytics): empresa@test.com e 123456

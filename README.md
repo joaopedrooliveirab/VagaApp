@@ -81,9 +81,41 @@ mais rápido; vale comparar a qualidade nos seus currículos antes de trocar.
 | --- | --- | --- |
 | Aluno | `aluno@test.com` | `123456` |
 | Administrativo (TEIA) | `admin@teia.com` | `teia123` |
+| Empresa (Nimbus Analytics) | `empresa@test.com` | `123456` |
 
 O acesso administrativo fica em **Acessar área administrativa**, na tela de
 login do aluno. Também é possível criar uma conta de aluno pelo cadastro.
+
+### Área da empresa e conversas com o TEIA
+
+1. Na entrada, escolha **Acessar área da empresa** e use a conta da Nimbus.
+2. Em **Minhas vagas**, abra uma oportunidade e pressione **Conversar com o TEIA**.
+3. Escreva e envie uma mensagem. Volte para suas vagas e use **Sair**.
+4. Entre com a conta administrativa e abra **Conversas com empresas** no painel.
+5. Selecione a mesma empresa/vaga e responda. Volte ao painel e saia.
+6. Entre novamente como empresa e abra a mesma vaga para ver a resposta.
+
+O histórico é compartilhado em memória pelo `ConversationsProvider`, separado
+da autenticação e do estado de análise. Existe uma conversa por empresa/vaga;
+reabrir uma vaga preserva suas mensagens. O TEIA vê todas as conversas locais,
+e a empresa vê somente as suas. O controle de perfil e propriedade é apenas
+demonstrativo, não uma autorização de produção.
+
+As vagas em revisão e encerradas da empresa são fixtures adicionais; as quatro
+vagas do catálogo do aluno e os indicadores atuais são preservados. Não há
+edição de vagas ou situações de publicação.
+
+Não existe comunicação entre dispositivos, respostas automáticas ou gravação
+permanente: recarregar o aplicativo reinicia o histórico. Para demonstrar a
+troca entre os perfis, use a mesma aba/execução e alterne pelo logout.
+
+Verificações disponíveis:
+
+```bash
+npm test            # regras de autenticação, propriedade e conversas
+npm run typecheck   # verificação de TypeScript
+npm run lint        # análise estática
+```
 
 ## O que é demonstrativo
 
