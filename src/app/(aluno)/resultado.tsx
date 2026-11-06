@@ -4,6 +4,7 @@ import { useRouter } from 'expo-router';
 import { StyleSheet, Text, View } from 'react-native';
 
 import { Button } from '../../components/Button';
+import { BackControl } from '../../components/BackControl';
 import { EmptyState } from '../../components/EmptyState';
 import { Icon, type IconName } from '../../components/Icon';
 import { Notice } from '../../components/Notice';
@@ -109,6 +110,7 @@ export default function ResultadoScreen() {
 
   return (
     <Screen centered={false} edges={['bottom']}>
+      <BackControl label="Início" href="/home" />
       {byAi ? (
         <Notice title="Análise feita por IA">
           Gerada pelo modelo {model} a partir do seu PDF. A IA pode
@@ -253,12 +255,6 @@ export default function ResultadoScreen() {
         <Button
           title="Analisar outra vaga"
           onPress={handleAnotherJob}
-        />
-
-        <Button
-          title="Voltar ao início"
-          variant="outline"
-          onPress={() => router.dismissTo('/home')}
         />
       </View>
     </Screen>

@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { Link } from 'expo-router';
 
 import {
   Keyboard,
@@ -8,6 +7,7 @@ import {
 } from 'react-native';
 
 import { Brand } from '../components/Brand';
+import { BackControl } from '../components/BackControl';
 import { Button } from '../components/Button';
 import { Input } from '../components/Input';
 import { Screen } from '../components/Screen';
@@ -37,6 +37,7 @@ export default function AdminLoginScreen() {
 
   return (
     <Screen>
+      <BackControl label="Voltar" href="/" history accessibilityLabel="Voltar ao acesso do aluno" />
       <Brand />
 
       <Tag label="Área administrativa — TEIA" />
@@ -92,16 +93,6 @@ export default function AdminLoginScreen() {
           title="Entrar no painel"
           onPress={handleLogin}
         />
-      </View>
-
-      <View style={sharedStyles.footer}>
-        <Link
-          href="/"
-          replace
-          style={sharedStyles.link}
-        >
-          Voltar ao acesso do aluno
-        </Link>
       </View>
     </Screen>
   );

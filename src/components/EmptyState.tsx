@@ -7,9 +7,7 @@ import { Button } from './Button';
 type EmptyStateProps = {
   title: string;
   message: string;
-  actionLabel: string;
-  onAction: () => void;
-};
+} & ({ actionLabel: string; onAction: () => void } | { actionLabel?: never; onAction?: never });
 
 export function EmptyState({
   title,
@@ -25,7 +23,7 @@ export function EmptyState({
 
       <Text style={styles.message}>{message}</Text>
 
-      <Button title={actionLabel} onPress={onAction} />
+      {actionLabel && onAction && <Button title={actionLabel} onPress={onAction} />}
     </View>
   );
 }

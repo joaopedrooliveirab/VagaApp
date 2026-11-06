@@ -3,6 +3,7 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import { StyleSheet, Text, View } from 'react-native';
 
 import { Button } from '../../../components/Button';
+import { BackControl } from '../../../components/BackControl';
 import { EmptyState } from '../../../components/EmptyState';
 import { CompanyMark, JobMeta } from '../../../components/JobCard';
 import { Screen } from '../../../components/Screen';
@@ -25,12 +26,11 @@ export default function VagaScreen() {
 
   if (!job) {
     return (
-      <Screen centered={false} edges={['bottom']}>
+      <Screen centered={false}>
+        <BackControl label="Vagas" href="/vagas" />
         <EmptyState
           title="Vaga não encontrada"
           message="Não foi possível abrir esta vaga. Volte para a lista e escolha outra."
-          actionLabel="Ver vagas"
-          onAction={() => router.dismissTo('/vagas')}
         />
       </Screen>
     );
@@ -46,7 +46,8 @@ export default function VagaScreen() {
   }
 
   return (
-    <Screen centered={false} edges={['bottom']}>
+    <Screen centered={false}>
+      <BackControl label="Vagas" href="/vagas" />
       <View style={styles.header}>
         <CompanyMark company={job.company} />
 

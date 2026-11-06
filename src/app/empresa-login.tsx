@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { Link } from 'expo-router';
 import { Keyboard, Text, View } from 'react-native';
 
 import { Brand } from '../components/Brand';
+import { BackControl } from '../components/BackControl';
 import { Button } from '../components/Button';
 import { Input } from '../components/Input';
 import { Screen } from '../components/Screen';
@@ -24,6 +24,7 @@ export default function CompanyLoginScreen() {
 
   return (
     <Screen>
+      <BackControl label="Voltar" href="/" history accessibilityLabel="Voltar ao acesso do aluno" />
       <Brand />
       <Title style={{ marginTop: 16 }}>Área da empresa</Title>
       <Text style={sharedStyles.subtitle}>
@@ -49,9 +50,6 @@ export default function CompanyLoginScreen() {
         )}
         <Button title="Entrar" onPress={handleLogin} />
         <Text style={sharedStyles.muted}>Ambiente demonstrativo com dados fictícios.</Text>
-      </View>
-      <View style={sharedStyles.footer}>
-        <Link href="/" replace style={sharedStyles.link}>Voltar ao acesso do aluno</Link>
       </View>
     </Screen>
   );
