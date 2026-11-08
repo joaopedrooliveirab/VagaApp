@@ -7,7 +7,6 @@ import {
 
 import {
   loginAdminMock,
-  loginCompanyMock,
   loginMock,
   registerMock,
   type AuthResult,
@@ -15,6 +14,8 @@ import {
   type Registration,
   type User,
 } from '../features/auth/auth';
+import type { CompanyRegistration } from '../features/companies/accounts';
+import { useCompanies } from './CompaniesContext';
 
 type AuthContextData = {
   user: User | null;
@@ -22,6 +23,8 @@ type AuthContextData = {
   loginAdmin: (credentials: Credentials) => AuthResult;
   loginCompany: (credentials: Credentials) => AuthResult;
   register: (data: Registration) => AuthResult;
+  requestCompany: (data: CompanyRegistration) => { ok: true } | { ok: false; message: string };
+  approveCompany: (companyId: string) => { ok: true } | { ok: false; message: string };
   logout: () => void;
 };
 
@@ -35,6 +38,7 @@ export function AuthProvider({
   children: ReactNode;
 }) {
   const [user, setUser] = useState<User | null>(null);
+  const { store } = useCompanies();
 
   function login(credentials: Credentials): AuthResult {
     const result = loginMock(credentials);
@@ -57,7 +61,7 @@ export function AuthProvider({
   }
 
   function loginCompany(credentials: Credentials): AuthResult {
-    const result = loginCompanyMock(credentials);
+    const result = store.login(credentials);
 
     if (result.ok) {
       setUser(result.user);
@@ -88,6 +92,8 @@ export function AuthProvider({
         loginAdmin,
         loginCompany,
         register,
+        requestCompany: store.request,
+        approveCompany: (companyId) => store.approve(companyId, user),
         logout,
       }}
     >

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'expo-router';
 import { Keyboard, Text, View } from 'react-native';
 
 import { Brand } from '../components/Brand';
@@ -50,6 +51,10 @@ export default function CompanyLoginScreen() {
         )}
         <Button title="Entrar" onPress={handleLogin} />
         <Text style={sharedStyles.muted}>Ambiente demonstrativo com dados fictícios.</Text>
+      </View>
+      <View style={sharedStyles.footer}>
+        <Text style={sharedStyles.muted}>Não possui acesso?</Text>
+        <Link href="/empresa-cadastro" style={sharedStyles.link}>Solicitar cadastro</Link>
       </View>
     </Screen>
   );

@@ -3,7 +3,8 @@ Aqui será feito a descrição do projeto e o que ele vai atender
 
 ## Como rodar
 
-Requisitos: Node.js 20+ e o app **Expo Go** no celular (ou um emulador Android/iOS).
+Requisitos: Node.js 22.13+ (linha 22), 24.3+ (linha 24) ou 26+ e o app
+**Expo Go compatível com o SDK 58** no celular (ou um emulador Android/iOS).
 
 ```bash
 npm install        # instala as dependências
@@ -12,6 +13,8 @@ npm run android    # abre no emulador Android
 npm run ios        # abre no simulador iOS (somente macOS)
 npm run web        # abre no navegador
 ```
+
+Após atualizar o SDK, execute `npm start -- --clear` para limpar o cache do Metro.
 
 O `npm start` também sobe a rota de análise (`/api/analisar`). Celular e
 computador precisam estar na mesma rede Wi-Fi.
@@ -116,6 +119,57 @@ npm test            # regras de autenticação, propriedade e conversas
 npm run typecheck   # verificação de TypeScript
 npm run lint        # análise estática
 ```
+
+### Cadastro temporário de empresas e aprovação
+
+Na tela de login empresarial, **Solicitar cadastro** abre um formulário com
+empresa, responsável, e-mail, senha e confirmação. O cadastro cria uma empresa
+pendente sem iniciar sessão. O e-mail é normalizado e não pode repetir outra
+conta empresarial, inclusive a Nimbus. A senha mantém seu valor original e
+reutiliza a validação de tamanho mínimo do cadastro existente.
+
+O `CompaniesProvider` fica acima do `AuthProvider` e das rotas condicionais.
+Ele mantém uma instância de `createCompanyStore`, com os dados públicos das
+empresas separados de um mapa interno de credenciais. A confirmação de senha
+não é armazenada. O `AuthProvider` continua responsável apenas pela sessão;
+seu logout limpa `user`, sem recriar as contas nem as conversas.
+
+A função de aprovação verifica o perfil administrativo, aceita somente
+solicitações pendentes e atualiza o mesmo registro com a data de aprovação.
+Atualizações são síncronas: uma segunda tentativa não processa a empresa
+novamente. O login verifica primeiro a credencial e depois a situação. A
+proteção da área empresarial verifica também se o `companyId` está aprovado.
+Vagas e conversas continuam vinculadas ao `companyId` da sessão; uma empresa
+nova começa com a lista vazia. Não há persistência nem chamadas externas neste
+fluxo. Este mecanismo é exclusivamente demonstrativo.
+
+Para demonstrar na mesma aba/execução:
+
+1. Abra o login empresarial e solicite o cadastro de uma nova empresa.
+2. Confira **Cadastro solicitado! Seu acesso está aguardando aprovação do TEIA.**
+3. Volte ao login e tente entrar com os dados cadastrados: o acesso permanece pendente.
+4. Volte ao login inicial, abra o acesso administrativo e entre com
+   `admin@teia.com` / `teia123`.
+5. No painel, abra **Solicitações de empresas** e use **Aprovar empresa**.
+6. Confira a confirmação e a remoção da solicitação da lista, mantendo a sessão TEIA.
+7. Saia, entre com as credenciais da nova empresa e confira **Nenhuma vaga disponível**.
+8. Saia e entre novamente: a conta continua funcionando.
+9. Recarregue completamente: a conta temporária deixa de existir. A Nimbus
+   continua disponível com `empresa@test.com` / `123456`.
+
+Os testes em `tests/company-approval.test.cjs` cobrem campos obrigatórios,
+duplicidade, transições, autorização, autenticação repetida, isolamento,
+atualizações e recriação do armazenamento. A preservação no logout também
+depende da posição dos providers descrita acima; a sequência de interface deve
+ser conferida manualmente em mobile e web.
+
+Na verificação desta entrega, os 8 testes de aprovação e os 12 testes de
+conversas passaram, assim como o lint dos arquivos desta funcionalidade. Os
+comandos globais `npm run typecheck` e `npm run lint` ainda apontam problemas
+nos componentes existentes do template: imports com alias `@/`, referência à
+rota inexistente `/explore` e atualização de estado em efeito no hook de tema
+web. Essas correções ficam fora desta funcionalidade. Os tipos das novas
+rotas foram regenerados localmente; `.expo/` é um diretório gerado e ignorado.
 
 ## O que é demonstrativo
 

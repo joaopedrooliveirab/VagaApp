@@ -9,14 +9,16 @@ import { Tag } from '../../../../components/Tag';
 import { Title } from '../../../../components/Title';
 import { sharedStyles } from '../../../../constants/theme';
 import { useAuth } from '../../../../context/AuthContext';
+import { useCompanies } from '../../../../context/CompaniesContext';
 import { getCompanyById } from '../../../../features/companies/companies';
 import { getCompanyJobs } from '../../../../features/companies/jobs';
 
 export default function CompanyJobsScreen() {
   const { user, logout } = useAuth();
+  const { companies } = useCompanies();
   if (user?.role !== 'empresa') return null;
 
-  const company = getCompanyById(user.companyId);
+  const company = companies.find((item) => item.id === user.companyId) ?? getCompanyById(user.companyId);
   const jobs = getCompanyJobs(user.companyId);
 
   return (

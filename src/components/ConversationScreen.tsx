@@ -1,7 +1,7 @@
 import { Fragment, useRef, useState } from 'react';
 import {
   KeyboardAvoidingView, Platform, ScrollView, StyleSheet,
-  Text, TextInput, View,
+  Text, TextInput, View, type ScrollViewInstance,
 } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -26,7 +26,7 @@ export function ConversationScreen({ conversationId }: { conversationId: string 
   const { getConversation, sendMessage } = useConversations();
   const [draft, setDraft] = useState('');
   const [error, setError] = useState('');
-  const history = useRef<ScrollView>(null);
+  const history = useRef<ScrollViewInstance>(null);
   const followLatest = useRef(true);
   const insets = useSafeAreaInsets();
 
