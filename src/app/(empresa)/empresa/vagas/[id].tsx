@@ -3,6 +3,7 @@ import { router, useLocalSearchParams } from 'expo-router';
 import { StyleSheet, Text, View } from 'react-native';
 
 import { Button } from '../../../../components/Button';
+import { BackControl } from '../../../../components/BackControl';
 import { EmptyState } from '../../../../components/EmptyState';
 import { CompanyMark, JobMeta } from '../../../../components/JobCard';
 import { Screen } from '../../../../components/Screen';
@@ -25,9 +26,9 @@ export default function CompanyJobScreen() {
   if (!job || job.companyId !== user.companyId) {
     return (
       <Screen centered={false}>
+        <BackControl label="Minhas vagas" href="/empresa/vagas" />
         <EmptyState title="Vaga indisponível"
-          message="Esta vaga não existe ou não pertence à sua empresa."
-          actionLabel="Voltar para minhas vagas" onAction={() => router.replace('/empresa/vagas')} />
+          message="Esta vaga não existe ou não pertence à sua empresa." />
       </Screen>
     );
   }
@@ -44,7 +45,7 @@ export default function CompanyJobScreen() {
 
   return (
     <Screen centered={false} maxWidth={640} wideMaxWidth={760}>
-      <Button title="Voltar para minhas vagas" variant="outline" onPress={() => router.dismissTo('/empresa/vagas')} />
+      <BackControl label="Minhas vagas" href="/empresa/vagas" />
       <View style={styles.header}>
         <CompanyMark company={job.company} />
         <View style={styles.flex}>

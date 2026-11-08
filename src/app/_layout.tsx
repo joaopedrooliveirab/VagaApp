@@ -5,6 +5,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { AnalysisProvider } from '../context/AnalysisContext';
 import { ConversationsProvider } from '../context/ConversationsContext';
+import { CompaniesProvider, useCompanies } from '../context/CompaniesContext';
 import {
   AuthProvider,
   useAuth,
@@ -12,16 +13,27 @@ import {
 
 function Routes() {
   const { user } = useAuth();
+  const { companies } = useCompanies();
+  const approvedCompany = user?.role === 'empresa' && companies.some(
+    (company) => company.id === user.companyId && company.status === 'approved',
+  );
+  const destino =
+    user?.role === 'aluno'
+      ? '/home'
+      : user?.role === 'administrativo'
+        ? '/dashboard'
+        : '/empresa/vagas';
 
   return (
     // A chave reinicia vaga, currículo e resultado quando a sessão muda.
     <AnalysisProvider key={user?.email ?? 'visitante'}>
       <Stack screenOptions={{ headerShown: false }}>
-        <Stack.Protected guard={!user}>
+        <Stack.Protected guard={!user} redirectTo={destino}>
           <Stack.Screen name="index" />
           <Stack.Screen name="cadastro" />
           <Stack.Screen name="admin-login" />
           <Stack.Screen name="empresa-login" />
+          <Stack.Screen name="empresa-cadastro" />
         </Stack.Protected>
 
         <Stack.Protected guard={user?.role === 'aluno'}>
@@ -32,7 +44,7 @@ function Routes() {
           <Stack.Screen name="(admin)" />
         </Stack.Protected>
 
-        <Stack.Protected guard={user?.role === 'empresa'}>
+        <Stack.Protected guard={approvedCompany}>
           <Stack.Screen name="(empresa)" />
         </Stack.Protected>
       </Stack>
@@ -43,13 +55,15 @@ function Routes() {
 export default function RootLayout() {
   return (
     <SafeAreaProvider>
-      <AuthProvider>
-        {/* Mantém o histórico ao alternar de perfil na mesma execução. */}
-        <ConversationsProvider>
-          <StatusBar style="dark" />
-          <Routes />
-        </ConversationsProvider>
-      </AuthProvider>
+      <CompaniesProvider>
+        <AuthProvider>
+          {/* Mantém o histórico ao alternar de perfil na mesma execução. */}
+          <ConversationsProvider>
+            <StatusBar style="dark" />
+            <Routes />
+          </ConversationsProvider>
+        </AuthProvider>
+      </CompaniesProvider>
     </SafeAreaProvider>
   );
 }

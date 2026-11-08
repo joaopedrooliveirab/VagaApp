@@ -1,11 +1,11 @@
 import { useMemo, useState, type ReactNode } from 'react';
 import { router } from 'expo-router';
 
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
 import { BarChart } from '../../components/BarChart';
 import { Button } from '../../components/Button';
-import { Icon } from '../../components/Icon';
+import { LogoutControl } from '../../components/LogoutControl';
 import { Notice } from '../../components/Notice';
 import { RankList } from '../../components/RankList';
 import { Screen } from '../../components/Screen';
@@ -76,15 +76,7 @@ export default function DashboardScreen() {
       <View style={styles.topRow}>
         <Tag label="Área administrativa — TEIA" />
 
-        <Pressable
-          accessibilityRole="button"
-          accessibilityLabel="Sair do painel"
-          onPress={logout}
-          style={styles.logout}
-        >
-          <Icon name="logout" color={colors.primary} size={20} />
-          <Text style={styles.logoutText}>Sair</Text>
-        </Pressable>
+        <LogoutControl onPress={logout} />
       </View>
 
       <Title>Painel TEIA</Title>
@@ -94,11 +86,16 @@ export default function DashboardScreen() {
       </Text>
 
       <Button title="Conversas com empresas" variant="outline" onPress={() => router.push('/teia/conversas')} />
+      <View style={{ marginTop: 12 }}>
+        <Button title="Solicitações de empresas" variant="outline" onPress={() => router.push('/teia/solicitacoes')} />
+      </View>
 
-      <Notice title="Dados demonstrativos">
-        Os números abaixo são fictícios e não representam alunos
-        reais.
-      </Notice>
+      <View style={styles.demoNotice}>
+        <Notice title="Dados demonstrativos">
+          Os números abaixo são fictícios e não representam alunos
+          reais.
+        </Notice>
+      </View>
 
       <View style={styles.filter}>
         <Text style={styles.filterLabel}>Período</Text>
@@ -169,19 +166,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
 
-  logout: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6,
-    minHeight: 44,
-    paddingHorizontal: 8,
-  },
-
-  logoutText: {
-    color: colors.primary,
-    fontSize: 15,
-    fontWeight: '700',
-  },
+  demoNotice: { marginTop: 16 },
 
   filter: {
     gap: 8,

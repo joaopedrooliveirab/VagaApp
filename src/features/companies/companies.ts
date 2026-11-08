@@ -3,6 +3,14 @@ export type Company = {
   name: string;
 };
 
+export type RegisteredCompany = Company & {
+  responsibleName: string;
+  email: string;
+  status: 'pending' | 'approved';
+  requestedAt: string;
+  approvedAt?: string;
+};
+
 export const companies: Company[] = [
   { id: 'nimbus-analytics', name: 'Nimbus Analytics' },
   { id: 'orbita-sistemas', name: 'Órbita Sistemas' },

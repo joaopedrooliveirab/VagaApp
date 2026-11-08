@@ -4,6 +4,9 @@ import type { ColorValue } from 'react-native';
 
 // iOS usa SF Symbols; Android e web usam Material Symbols.
 const symbols = {
+  back: { ios: 'arrow.left', android: 'arrow_back', web: 'arrow_back' },
+  expand: { ios: 'chevron.down', android: 'expand_more', web: 'expand_more' },
+  collapse: { ios: 'chevron.up', android: 'expand_less', web: 'expand_less' },
   home: { ios: 'house.fill', android: 'home', web: 'home' },
   jobs: { ios: 'briefcase.fill', android: 'work', web: 'work' },
   resume: {

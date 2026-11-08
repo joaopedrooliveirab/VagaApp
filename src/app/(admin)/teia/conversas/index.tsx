@@ -2,6 +2,7 @@ import { router } from 'expo-router';
 import { StyleSheet, Text, View } from 'react-native';
 
 import { Button } from '../../../../components/Button';
+import { BackControl } from '../../../../components/BackControl';
 import { EmptyState } from '../../../../components/EmptyState';
 import { Screen } from '../../../../components/Screen';
 import { Title } from '../../../../components/Title';
@@ -18,7 +19,7 @@ export default function AdminConversationsScreen() {
 
   return (
     <Screen centered={false} maxWidth={640} wideMaxWidth={800}>
-      <Button title="Voltar ao painel TEIA" variant="outline" onPress={() => router.dismissTo('/dashboard')} />
+      <BackControl label="Painel TEIA" href="/dashboard" />
       <View style={styles.heading}>
         <Title>Conversas</Title>
         <Text style={sharedStyles.subtitle}>Comunicação com empresas sobre suas vagas.</Text>
@@ -27,8 +28,7 @@ export default function AdminConversationsScreen() {
       <View style={styles.list}>
         {conversations.length === 0 ? (
           <EmptyState title="Nenhuma conversa por aqui"
-            message="Entre como empresa e use “Conversar com o TEIA” em uma vaga para iniciar a demonstração."
-            actionLabel="Voltar ao painel" onAction={() => router.replace('/dashboard')} />
+            message="Entre como empresa e use “Conversar com o TEIA” em uma vaga para iniciar a demonstração." />
         ) : conversations.map((conversation) => {
           const company = getCompanyById(conversation.companyId);
           const job = getCompanyJobById(conversation.jobId);

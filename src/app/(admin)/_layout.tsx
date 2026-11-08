@@ -4,6 +4,7 @@ export default function AdminLayout() {
   return (
     <Stack screenOptions={{ headerShown: false }}>
       <Stack.Screen name="dashboard" />
+      <Stack.Screen name="teia/solicitacoes" />
       <Stack.Screen name="teia/conversas/index" />
       <Stack.Screen name="teia/conversas/[id]" />
     </Stack>

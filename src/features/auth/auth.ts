@@ -75,10 +75,17 @@ export function loginCompanyMock({ email, password }: Credentials): AuthResult {
   return { ok: true, user: { ...mockCompany } };
 }
 
-const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+export const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-function normalizeEmail(email: string): string {
+export function normalizeEmail(email: string): string {
   return email.trim().toLowerCase();
+}
+
+export const MIN_PASSWORD_LENGTH = 6;
+
+// Valida o tamanho sem modificar a credencial fornecida.
+export function isPasswordLongEnough(password: string): boolean {
+  return password.trim().length >= MIN_PASSWORD_LENGTH;
 }
 
 export function loginMock({
@@ -181,7 +188,7 @@ export function registerMock({
     };
   }
 
-  if (password.trim().length < 6) {
+  if (!isPasswordLongEnough(password)) {
     return {
       ok: false,
       message: 'Use uma senha com pelo menos 6 caracteres.',

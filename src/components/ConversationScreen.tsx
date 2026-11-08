@@ -1,8 +1,7 @@
 import { Fragment, useRef, useState } from 'react';
-import { router } from 'expo-router';
 import {
-  KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet,
-  Text, TextInput, View,
+  KeyboardAvoidingView, Platform, ScrollView, StyleSheet,
+  Text, TextInput, View, type ScrollViewInstance,
 } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -12,6 +11,7 @@ import { useConversations } from '../context/ConversationsContext';
 import { getCompanyById } from '../features/companies/companies';
 import { getCompanyJobById } from '../features/companies/jobs';
 import { Button } from './Button';
+import { BackControl } from './BackControl';
 import { EmptyState } from './EmptyState';
 import { Screen } from './Screen';
 
@@ -26,7 +26,7 @@ export function ConversationScreen({ conversationId }: { conversationId: string 
   const { getConversation, sendMessage } = useConversations();
   const [draft, setDraft] = useState('');
   const [error, setError] = useState('');
-  const history = useRef<ScrollView>(null);
+  const history = useRef<ScrollViewInstance>(null);
   const followLatest = useRef(true);
   const insets = useSafeAreaInsets();
 
@@ -34,20 +34,17 @@ export function ConversationScreen({ conversationId }: { conversationId: string 
   const job = conversation && getCompanyJobById(conversation.jobId);
   const company = conversation && getCompanyById(conversation.companyId);
   const companyView = user?.role === 'empresa';
-  const backPath = companyView ? '/empresa/vagas' : '/teia/conversas';
-
-  function goBack() {
-    if (router.canGoBack()) router.back();
-    else router.replace(backPath);
-  }
+  const backPath = companyView
+    ? job ? `/empresa/vagas/${job.id}` as const : '/empresa/vagas'
+    : '/teia/conversas';
+  const backLabel = companyView ? job ? 'Vaga' : 'Minhas vagas' : 'Conversas';
 
   if (!conversation || !job || !company) {
     return (
       <Screen centered={false}>
+        <BackControl label={backLabel} href={backPath} />
         <EmptyState title="Conversa indisponível"
-          message="Esta conversa não existe ou não está disponível para sua conta."
-          actionLabel={companyView ? 'Voltar para minhas vagas' : 'Ver conversas'}
-          onAction={() => router.replace(backPath)} />
+          message="Esta conversa não existe ou não está disponível para sua conta." />
       </Screen>
     );
   }
@@ -74,10 +71,7 @@ export function ConversationScreen({ conversationId }: { conversationId: string 
         keyboardVerticalOffset={insets.top}>
         <View style={styles.container}>
           <View style={styles.header}>
-            <Pressable onPress={goBack} accessibilityRole="button" accessibilityLabel="Voltar"
-              style={styles.back}>
-              <Text style={styles.backText}>‹ Voltar</Text>
-            </Pressable>
+            <BackControl label={backLabel} href={backPath} />
             <Text style={styles.title} accessibilityRole="header">
               {companyView ? 'Conversa com o TEIA' : company.name}
             </Text>
@@ -145,8 +139,6 @@ const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: colors.surface },
   container: { flex: 1, minHeight: 0, width: '100%', maxWidth: 800, alignSelf: 'center' },
   header: { padding: 16, gap: 6, backgroundColor: colors.background, borderBottomWidth: 1, borderColor: colors.border },
-  back: { alignSelf: 'flex-start', minHeight: 44, justifyContent: 'center', paddingHorizontal: 8 },
-  backText: { color: colors.primary, fontSize: 16, fontWeight: '700' },
   title: { color: colors.text, fontSize: 20, fontWeight: '700' },
   subject: { color: colors.text, fontSize: 15, lineHeight: 21 },
   demo: { color: colors.muted, fontSize: 12, lineHeight: 18 },

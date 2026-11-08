@@ -5,6 +5,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { Avatar } from '../../../components/Avatar';
 import { Button } from '../../../components/Button';
 import { Icon } from '../../../components/Icon';
+import { LogoutControl } from '../../../components/LogoutControl';
 import { Notice } from '../../../components/Notice';
 import { Screen } from '../../../components/Screen';
 
@@ -71,6 +72,10 @@ export default function HomeScreen() {
 
   return (
     <Screen centered={false} edges={['top']}>
+      <View style={styles.topRow}>
+        <LogoutControl onPress={logout} accessibilityLabel="Sair da conta do aluno" />
+      </View>
+
       <View style={styles.profile}>
         <View style={styles.band} />
 
@@ -116,18 +121,18 @@ export default function HomeScreen() {
         <Notice title="Aplicativo demonstrativo">
           As vagas são fictícias e nenhuma candidatura é enviada.
         </Notice>
-
-        <Button
-          title="Sair"
-          variant="outline"
-          onPress={logout}
-        />
       </View>
     </Screen>
   );
 }
 
 const styles = StyleSheet.create({
+  topRow: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    marginBottom: 16,
+  },
+
   profile: {
     backgroundColor: colors.background,
     borderRadius: 16,
